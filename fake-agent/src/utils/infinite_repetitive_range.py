@@ -1,7 +1,4 @@
-
-
-
-class InfiniteRepetitiveRange():
+class InfiniteRepetitiveRange:
     @staticmethod
     def infinite_repetitive_range(n):
         while True:

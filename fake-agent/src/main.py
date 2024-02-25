@@ -15,7 +15,7 @@ def connect_mqtt(broker, port):
             print(f"Connected to MQTT Broker ({broker}:{port})!")
         else:
             print("Failed to connect {broker}:{port}, return code %d\n", rc)
-            exit(rc) 
+            exit(rc)
 
     client = mqtt_client.Client()
     client.on_connect = on_connect
@@ -33,21 +33,22 @@ def publish(client, topic, datasource, delay):
         time.sleep(delay)
         msg = AggregatedDataSchema().dumps(agr_data[count])
         result = client.publish(topic, msg)
-        
+
         status = result[0]
-        
+
         if status == 0:
             print(f"Send `{msg}` to topic `{topic}`")
         else:
             print(f"Failed to send message to topic {topic}")
-        
 
 
 def run():
     client = connect_mqtt(config.MQTT_BROKER_HOST, config.MQTT_BROKER_PORT)
-    datasource = FileDatasource("data/accelerometer.csv", "data/gps.csv", "data/parking.csv")
+    datasource = FileDatasource(
+        "data/accelerometer.csv", "data/gps.csv", "data/parking.csv"
+    )
     publish(client, config.MQTT_TOPIC, datasource, config.DELAY)
-    
+
 
 if __name__ == "__main__":
     run()
