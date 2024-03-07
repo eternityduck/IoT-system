@@ -49,6 +49,7 @@ async def create_processed_agent_data(data: List[ProcessedAgentData]):
         for d in data
     ]
     session.add_all(mapped_data)
+    # session.commit()
     try:
         session.commit()
     except:
