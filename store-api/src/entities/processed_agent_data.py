@@ -13,7 +13,7 @@ mapper_registry = registry()
 class ProcessedAgentDataInDB:
     __tablename__ = "processed_agent_data"
 
-    id: Mapped[Optional[int]] = mapped_column(primary_key=True)
+    id: Mapped[Optional[int]] = mapped_column(primary_key=True, nullable=False)
     road_state: Mapped[str]
     user_id: Mapped[int]
     x: Mapped[float]
