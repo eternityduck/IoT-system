@@ -21,17 +21,19 @@ class StoreApiAdapter(StoreGateway):
             bool: True if the data is successfully saved, False otherwise.
         """
         try:
-            print("batch")
-            print(processed_agent_data_batch)
             json_str = "["
             for data in processed_agent_data_batch:
                 json_str = json_str + data.model_dump_json() + ","
             json_str = json_str[:-1] + "]"
-            print("json")
             response = requests.post(
                 f"{self.api_base_url}/processed_agent_data/",
                 json=json.loads(json_str),
             )
+            # json_data = [data.model_dump_json() for data in processed_agent_data_batch]
+            # response = requests.post(
+            #     f"{self.api_base_url}/processed_agent_data/",
+            #     json=json_data,
+            # )
             response.raise_for_status()
             return True
         except Exception as e:
