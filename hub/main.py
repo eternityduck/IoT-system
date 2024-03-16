@@ -67,21 +67,23 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     try:
         payload = json.loads(msg.payload.decode("utf-8"))
-        
+        logging.info(f"Proccessing payload: {payload}")
+
+        # the following model works only with edge service TODO fix it(make if flexible for both edge and standalone hub services)
         model = {
-            "road_state": "good",
+            "road_state": payload['road_state'] if 'road_state' in payload else None,
             "agent_data": {
                 "user_id": payload['user_id'],
                 "accelerometer": {
-                    "x": payload['accelerometer']['x'],
-                    "y": payload['accelerometer']['y'],
-                    "z": payload['accelerometer']['z']
+                    "x": payload['agent_data']['accelerometer']['x'],
+                    "y": payload['agent_data']['accelerometer']['y'],
+                    "z": payload['agent_data']['accelerometer']['z']
                 },
                 "gps": {
-                    "latitude": payload['gps']['latitude'],
-                    "longitude": payload['gps']['longitude']
+                    "latitude": payload['agent_data']['gps']['latitude'],
+                    "longitude": payload['agent_data']['gps']['longitude']
                 },
-                "timestamp": str(payload['timestamp']),
+                "timestamp": str(payload['agent_data']['timestamp']),
             },
         }
 
